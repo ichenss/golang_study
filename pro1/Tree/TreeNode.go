@@ -11,6 +11,7 @@ type TreeNode struct {
 
 var Root *TreeNode
 
+// Insert 插入节点
 func Insert(nums []int) {
 	Root = &TreeNode{val: nums[0]}
 	for i := 1; i < len(nums); i++ {
