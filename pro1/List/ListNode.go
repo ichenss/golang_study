@@ -38,3 +38,38 @@ func PrintList(head *ListNode) {
 		p = p.next
 	}
 }
+
+// DeleteNode 删除指定值节点
+func DeleteNode(head *ListNode, val int) {
+	if head == nil {
+		return
+	}
+	if head.val == val {
+		head = head.next
+		return
+	}
+	p := head
+	for p.next != nil {
+		if p.next.val == val {
+			p.next = p.next.next
+			return
+		}
+		p = p.next
+	}
+}
+
+// DeleteIndexNode 删除指定索引节点
+func DeleteIndexNode(head *ListNode, index int) {
+	if head == nil {
+		return
+	}
+	if index == 0 {
+		head = head.next
+		return
+	}
+	p := head
+	for i := 0; i < index; i++ {
+		p = p.next
+	}
+	p.next = p.next.next
+}
