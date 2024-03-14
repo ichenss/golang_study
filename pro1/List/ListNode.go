@@ -1,4 +1,4 @@
-package List
+package ListNode
 
 import "fmt"
 
@@ -8,6 +8,27 @@ type ListNode struct {
 }
 
 var head *ListNode
+
+// InsertBack 尾插法
+func InsertBack(nums []int) {
+	if head == nil {
+		head = &ListNode{val: nums[0], next: nil}
+		p := head
+		for i := 1; i < len(nums); i++ {
+			p.next = &ListNode{val: nums[i], next: nil}
+			p = p.next
+		}
+	} else {
+		p := head
+		for p.next != nil {
+			p = p.next
+		}
+		for i := 0; i < len(nums); i++ {
+			p.next = &ListNode{val: nums[i], next: nil}
+			p = p.next
+		}
+	}
+}
 
 // InsertHead 头插法
 func InsertHead(nums []int) {
