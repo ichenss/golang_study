@@ -1,25 +1,27 @@
 package main
 
-type Hero struct {
-	name  string
-	Age   int
-	Level int
-}
-
-func (cur *Hero) GetName() string {
-	return cur.name
-}
-
-func (cur *Hero) SetName(name string) {
-	cur.name = name
-}
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
-	hero1 := Hero{
-		name:  "chen",
-		Age:   25,
-		Level: 100,
+	c := make(chan int, 3) //带有缓冲的channel
+
+	go func() {
+		defer fmt.Println("子go程结束")
+
+		for i := 0; i < 4; i++ {
+			c <- i
+			fmt.Println("子go程正在运行, 发送的元素=", i, " len(c)=", len(c), ", cap(c)=", cap(c))
+		}
+	}()
+
+	time.Sleep(2 * time.Second)
+
+	for i := 0; i < 4; i++ {
+		num := <-c //从c中接收数据，并赋值给num
+		fmt.Println("num = ", num)
 	}
-	hero1.SetName("yuhang")
-	println(hero1.GetName())
+
 }
