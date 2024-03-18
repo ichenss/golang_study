@@ -1,27 +1,36 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
+
+func fibonacii(c, quit chan int) {
+	x, y := 1, 1
+
+	for {
+		select {
+		case c <- x:
+			//如果c可写，则该case就会进来
+			x = y
+			y = x + y
+		case <-quit:
+			fmt.Println("quit")
+			return
+		}
+	}
+}
 
 func main() {
-	c := make(chan int, 3) //带有缓冲的channel
+	c := make(chan int)
+	quit := make(chan int)
 
+	//sub go
 	go func() {
-		defer fmt.Println("子go程结束")
-
-		for i := 0; i < 4; i++ {
-			c <- i
-			fmt.Println("子go程正在运行, 发送的元素=", i, " len(c)=", len(c), ", cap(c)=", cap(c))
+		for i := 0; i < 10; i++ {
+			fmt.Println(<-c)
 		}
+
+		quit <- 0
 	}()
 
-	time.Sleep(2 * time.Second)
-
-	for i := 0; i < 4; i++ {
-		num := <-c //从c中接收数据，并赋值给num
-		fmt.Println("num = ", num)
-	}
-
+	//main go
+	fibonacii(c, quit)
 }
