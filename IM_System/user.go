@@ -55,6 +55,7 @@ func (u *User) SendMsg(msg string) {
 
 // 用户消息处理业务
 func (u *User) DoMessage(msg string) {
+	// 查询在线
 	if msg == "who" {
 		u.server.maplock.Lock()
 		for _, cli := range u.server.OnlineMap {
@@ -63,6 +64,7 @@ func (u *User) DoMessage(msg string) {
 		}
 		u.server.maplock.Unlock()
 	} else if len(msg) > 7 && msg[:7] == "rename|" {
+		// 更改用户名
 		newName := strings.Split(msg, "|")[1]
 		_, ok := u.server.OnlineMap[newName]
 		if ok {
