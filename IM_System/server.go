@@ -53,6 +53,7 @@ func (s *Server) Handler(conn net.Conn) {
 
 	s.BroadCast(user, "已上线")
 
+	// 用户消息广播
 	go func(){
 		buffer := make([]byte, 1024)
 		for {
