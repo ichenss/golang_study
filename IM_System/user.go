@@ -74,7 +74,6 @@ func (u *User) DoMessage(msg string) {
 			delete(u.server.OnlineMap, u.Name)
 			u.server.OnlineMap[newName] = u
 			u.server.maplock.Unlock()
-
 			u.Name = newName
 			u.SendMsg("您的用户名更新为：" + u.Name + "\n")
 		}
