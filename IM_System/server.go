@@ -13,7 +13,7 @@ type Server struct {
 	OnlineMap map[string]*User
 	maplock   sync.Mutex
 
-	Message chan string
+	Server_Message_Channel chan string
 }
 
 func NewServer(ip string, port int) *Server {
@@ -21,18 +21,18 @@ func NewServer(ip string, port int) *Server {
 		Ip:        ip,
 		Port:      port,
 		OnlineMap: make(map[string]*User),
-		Message:   make(chan string),
+		Server_Message_Channel:   make(chan string),
 	}
 	return server
 }
 
 func (s *Server) ListenMessager() {
 	for {
-		msg := <-s.Message
+		msg := <-s.Server_Message_Channel
 
 		s.maplock.Lock()
 		for _, cli := range s.OnlineMap {
-			cli.c <- msg
+			cli.User_Channel <- msg
 		}
 		s.maplock.Unlock()
 	}
@@ -40,7 +40,7 @@ func (s *Server) ListenMessager() {
 
 func (s *Server) BroadCast(user *User, msg string) {
 	sendMsg := "[" + user.Addr + "]" + user.Name + ":" + msg
-	s.Message <- sendMsg
+	s.Server_Message_Channel <- sendMsg
 }
 
 func (s *Server) Handler(conn net.Conn) {
