@@ -45,13 +45,9 @@ func (s *Server) BroadCast(user *User, msg string) {
 }
 
 func (s *Server) Handler(conn net.Conn) {
-	user := NewUser(conn)
+	user := NewUser(conn, s)
 
-	s.maplock.Lock()
-	s.OnlineMap[user.Name] = user
-	s.maplock.Unlock()
-
-	s.BroadCast(user, "已上线")
+	user.Online()
 
 	// 用户消息广播
 	go func(){
@@ -59,7 +55,7 @@ func (s *Server) Handler(conn net.Conn) {
 		for {
 			n, err := conn.Read(buffer)
 			if n == 0 {
-				s.BroadCast(user, "已下线")
+				user.Offline()
 				return
 			}
 			if err != nil && err != io.EOF{
@@ -68,7 +64,7 @@ func (s *Server) Handler(conn net.Conn) {
 			}
 			msg := string(buffer[:n-1])
 
-			s.BroadCast(user, msg)
+			user.DoMessage(msg)
 		}
 	}()
 
