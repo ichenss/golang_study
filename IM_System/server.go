@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net"
 	"sync"
 )
@@ -51,6 +52,24 @@ func (s *Server) Handler(conn net.Conn) {
 	s.maplock.Unlock()
 
 	s.BroadCast(user, "已上线")
+
+	go func(){
+		buffer := make([]byte, 1024)
+		for {
+			n, err := conn.Read(buffer)
+			if n == 0 {
+				s.BroadCast(user, "已下线")
+				return
+			}
+			if err != nil && err != io.EOF{
+				fmt.Println("read error: ", err)
+				return
+			}
+			msg := string(buffer[:n-1])
+
+			s.BroadCast(user, msg)
+		}
+	}()
 
 	// 当前 handler 阻塞
 	select {}
