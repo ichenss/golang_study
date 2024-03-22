@@ -6,10 +6,10 @@ import (
 )
 
 type User struct {
-	Name string
-	Addr string
+	Name         string
+	Addr         string
 	User_Channel chan string
-	conn net.Conn
+	conn         net.Conn
 
 	server *Server
 }
@@ -17,13 +17,13 @@ type User struct {
 func NewUser(conn net.Conn, server *Server) *User {
 	userAddr := conn.RemoteAddr().String()
 	user := &User{
-		Name: userAddr,
-		Addr: userAddr,
-		User_Channel:    make(chan string),
-		conn: conn,
-		server: server,
+		Name:         userAddr,
+		Addr:         userAddr,
+		User_Channel: make(chan string),
+		conn:         conn,
+		server:       server,
 	}
-	
+
 	go user.ListenMessage()
 
 	return user
@@ -47,9 +47,23 @@ func (u *User) Offline() {
 	u.server.BroadCast(u, "已下线")
 }
 
+// 给当前User对应的客户端发送消息
+func (u *User) SendMsg(msg string) {
+	u.conn.Write([]byte(msg))
+}
+
 // 用户消息处理业务
 func (u *User) DoMessage(msg string) {
-	u.server.BroadCast(u, msg)
+	if msg == "who" {
+		u.server.maplock.Lock()
+		for _, cli := range u.server.OnlineMap {
+			onlineMsg := "[" + cli.Addr + "]" + cli.Name + ":" + "在线...\n"
+			u.SendMsg(onlineMsg)
+		}
+		u.server.maplock.Unlock()
+	} else {
+		u.server.BroadCast(u, msg)
+	}
 }
 
 // ListenMessage 监听当前User channel 的方法，一旦有消息，就直接发送给对端客户端
