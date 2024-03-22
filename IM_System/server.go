@@ -39,7 +39,7 @@ func (s *Server) ListenMessager() {
 }
 
 func (s *Server) BroadCast(user *User, msg string) {
-	sendMsg := "[" + user.Addr + "]" + User{}.Name + ":" + msg
+	sendMsg := "[" + user.Addr + "]" + user.Name + ":" + msg
 	s.Message <- sendMsg
 }
 
