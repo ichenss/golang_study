@@ -77,7 +77,7 @@ func (s *Server) Handler(conn net.Conn) {
 		select {
 		case <- isLive:
 
-		case <- time.After(time.Second * 15):
+		case <- time.After(time.Second * 300):
 			user.SendMsg("你已被踢出")
 			close(user.User_Channel)
 			user.conn.Close()
