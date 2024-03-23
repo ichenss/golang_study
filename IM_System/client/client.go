@@ -31,6 +31,29 @@ func NewClient(serverIP string, serverPort int) *Client {
 	return client
 }
 
+// 公聊模式
+func (c *Client) PublicChat() {
+	var chatMsg string
+
+	fmt.Println(">>>>>请输入聊天内容, exit退出")
+	fmt.Scanln(&chatMsg)
+
+	for chatMsg != "exit" {
+		// 消息不为空则发送
+		if len(chatMsg) != 0 {
+			sendMsg := chatMsg + "\n"
+			_, err := c.Conn.Write([]byte(sendMsg))
+			if err != nil {
+				fmt.Println("client write err: ", err)
+				break
+			}
+		}
+		chatMsg = ""
+		fmt.Println(">>>>>请输入聊天内容, exit退出")
+		fmt.Scanln(&chatMsg)
+	}
+}
+
 // 处理server回应的消息
 func (c *Client) DealResponse() {
 	// 一旦 c.Conn 有数据，就直接copy到stdout标准输出上，永久阻塞监听
@@ -73,7 +96,8 @@ func (c *Client) Run() {
 	Switch:
 		switch c.flag {
 		case 1:
-			fmt.Println("公聊模式选择...")
+			// fmt.Println("公聊模式选择...")
+			c.PublicChat()
 			break Switch
 		case 2:
 			fmt.Println("私聊模式选择...")
