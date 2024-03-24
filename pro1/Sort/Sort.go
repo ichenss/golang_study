@@ -1,5 +1,6 @@
 package Sort
 
+// BubbleSort 冒泡排序
 func BubbleSort(nums []int) {
 	for i := 1; i < len(nums); i++ {
 		flag := false
