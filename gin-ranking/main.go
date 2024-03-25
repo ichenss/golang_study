@@ -10,7 +10,7 @@ func main() {
 
 	err := r.Run()
 	if err != nil {
-		fmt.Println("r.Run err: ", err)
+		fmt.Println("r.Run() err: ", err)
 		return
 	}
 }

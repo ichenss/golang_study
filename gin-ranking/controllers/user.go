@@ -6,7 +6,9 @@ type User struct {
 }
 
 func (u User) GetUserInfo(c *gin.Context) {
-	ReturnSuccess(c, 0, "success", "user info", 1)
+	id := c.Param("id")
+	name := c.Param("name")
+	ReturnSuccess(c, 0, name, id, 1)
 }
 
 func (u User) GetList(c *gin.Context) {
