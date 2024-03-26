@@ -1,1 +1,4 @@
 2024-03-26 13:33:05 - 127.0.0.1 "POST /user/list HTTP/1.1 200 540.2µs "PostmanRuntime/7.37.0" "
+2024-03-26 14:29:56 - 127.0.0.1 "GET /user/info/2 HTTP/1.1 200 1.4802ms "PostmanRuntime/7.37.0" "
+2024-03-26 14:31:38 - 127.0.0.1 "GET /user/info/2 HTTP/1.1 200 4.4428ms "PostmanRuntime/7.37.0" "
+2024-03-26 14:32:08 - 127.0.0.1 "GET /user/info/2 HTTP/1.1 200 1.0181ms "PostmanRuntime/7.37.0" "

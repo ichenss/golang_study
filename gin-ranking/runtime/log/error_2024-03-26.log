@@ -1,0 +1,3 @@
+{"level":"error","msg":"[]","mysql connect error: ":"sql: unknown driver \"mysql\" (forgotten import?)","time":"2024-03-26 14:09:18"}
+{"level":"error","msg":"[]","mysql connect error: ":"sql: unknown driver \"mysql\" (forgotten import?)","time":"2024-03-26 14:23:17"}
+{"level":"error","msg":"[]","mysql connect error: ":"invalid DSN: missing the slash separating the database name","time":"2024-03-26 14:25:15"}

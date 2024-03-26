@@ -20,7 +20,7 @@ func Router() *gin.Engine {
 	// 分组
 	user := r.Group("/user")
 	{
-		user.GET("/info/:id/:name", controllers.User{}.GetUserInfo)
+		user.GET("/info/:id", controllers.User{}.GetUserInfo)
 
 		user.POST("/list", controllers.User{}.GetList)
 
