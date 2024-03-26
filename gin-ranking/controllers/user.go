@@ -1,6 +1,9 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"gin-ranking/pkg/logger"
+	"github.com/gin-gonic/gin"
+)
 
 type User struct {
 }
@@ -12,5 +15,6 @@ func (u User) GetUserInfo(c *gin.Context) {
 }
 
 func (u User) GetList(c *gin.Context) {
-	ReturnError(c, 4004, "没有相关信息")
+	logger.Write("日志信息", "user")
+	ReturnError(c, 4004, "获取用户列表失败")
 }
