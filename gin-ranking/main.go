@@ -8,7 +8,7 @@ import (
 func main() {
 	r := router.Router()
 
-	err := r.Run(":8888")
+	err := r.Run(":8080")
 	if err != nil {
 		fmt.Println("r.Run() err: ", err)
 		return
